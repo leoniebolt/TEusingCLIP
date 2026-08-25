@@ -8,13 +8,7 @@ Maybe you can mention me or this repo in the acknowledgements too
 -->
 <div align="center">
 
-  <img src="assets/logo.png" alt="logo" width="200" height="auto" />
-  <h1>Awesome Readme Template</h1>
-  
-  <p>
-    An awesome README template for your projects! 
-  </p>
-  
+  <h1>Master Thesis: Self-Supervised Traversability Estimation using Vision-Language Model Features</h1>
   
 <!-- Badges -->
 <p>
@@ -79,6 +73,7 @@ Maybe you can mention me or this repo in the acknowledgements too
 
 <!-- About the Project -->
 ## :star2: About the Project
+Traversability Estimation (TE) using the VLM CLIP with Maskclip_onnx
 
 
 <!-- Screenshots -->
@@ -300,10 +295,13 @@ Project Link: [https://github.com/Louis3797/awesome-readme-template](https://git
 <!-- Acknowledgments -->
 ## :gem: Acknowledgements
 
-Use this section to mention useful resources and libraries that you have used in your projects.
+Thanks to these repositories and works! Without them, this thesis wouldn't have been possible:
 
  - [Shields.io](https://shields.io/)
  - [Awesome README](https://github.com/matiassingers/awesome-readme)
  - [Emoji Cheat Sheet](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md#travel--places)
  - [Readme Template](https://github.com/othneildrew/Best-README-Template)
+ - MaskCLIP_onnx: https://github.com/RogerQi/maskclip_onnx.git
+ - CLIP: https://github.com/openai/CLIP.git
+ - OTAS: https://github.com/SimonSchwaiger/otas.git
 
