@@ -134,7 +134,7 @@ No additional fixed traversability ROI is applied.
 │   ├── prepare_images_rellis.py
 │   ├── robonav_save_depth.py
 │   ├── rellis_save_depth.py
-│   ├── robonav_extractOTASMask_NEW.py
+│   ├── robonav_extractOTAS.py
 │   ├── rellis_extractOTASMask.py
 │   ├── image_utils.py
 │   ├── depth_utils.py
@@ -225,11 +225,11 @@ python preprocessing/robonav_save_depth.py \
 Generate OTAS masks for the training and test subsets:
 
 ```bash
-python preprocessing/robonav_extractOTASMask_NEW.py \
+python preprocessing/robonav_extractOTAS.py \
     --dataset mattro \
     --split train
 
-python preprocessing/robonav_extractOTASMask_NEW.py \
+python preprocessing/robonav_extractOTAS.py \
     --dataset mattro \
     --split test
 ```
@@ -309,7 +309,7 @@ python preprocessing/robonav_save_depth.py \
 Generate OTAS masks:
 
 ```bash
-python preprocessing/robonav_extractOTASMask_NEW.py \
+python preprocessing/robonav_extractOTAS.py \
     --dataset spot \
     --split test
 ```
