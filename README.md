@@ -1,307 +1,523 @@
-<!--
-Hey, thanks for using the awesome-readme-template template.  
-If you have any enhancements, then fork this project and create a pull request 
-or just open an issue with the label "enhancement".
-
-Don't forget to give this project a star for additional support ;)
-Maybe you can mention me or this repo in the acknowledgements too
--->
 <div align="center">
 
-  <h1>Master Thesis: Self-Supervised Traversability Estimation using Vision-Language Model Features</h1>
-  
-<!-- Badges -->
-<p>
-  <a href="https://github.com/Louis3797/awesome-readme-template/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/Louis3797/awesome-readme-template" alt="contributors" />
-  </a>
-  <a href="">
-    <img src="https://img.shields.io/github/last-commit/Louis3797/awesome-readme-template" alt="last update" />
-  </a>
-  <a href="https://github.com/Louis3797/awesome-readme-template/network/members">
-    <img src="https://img.shields.io/github/forks/Louis3797/awesome-readme-template" alt="forks" />
-  </a>
-  <a href="https://github.com/Louis3797/awesome-readme-template/stargazers">
-    <img src="https://img.shields.io/github/stars/Louis3797/awesome-readme-template" alt="stars" />
-  </a>
-  <a href="https://github.com/Louis3797/awesome-readme-template/issues/">
-    <img src="https://img.shields.io/github/issues/Louis3797/awesome-readme-template" alt="open issues" />
-  </a>
-  <a href="https://github.com/Louis3797/awesome-readme-template/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/Louis3797/awesome-readme-template.svg" alt="license" />
-  </a>
-</p>
-   
-<h4>
-    <a href="https://github.com/Louis3797/awesome-readme-template/">View Demo</a>
-  <span> · </span>
-    <a href="https://github.com/Louis3797/awesome-readme-template">Documentation</a>
-  <span> · </span>
-    <a href="https://github.com/Louis3797/awesome-readme-template/issues/">Report Bug</a>
-  <span> · </span>
-    <a href="https://github.com/Louis3797/awesome-readme-template/issues/">Request Feature</a>
-  </h4>
+# Self-Supervised Traversability Estimation using Vision-Language Model Features
+
+### Master Thesis – Robotics Engineering
+
+A framework for self-supervised visual traversability estimation using pretrained MaskCLIP features and robot telemetry.
+
 </div>
 
-<br />
+---
 
-<!-- Table of Contents -->
-# :notebook_with_decorative_cover: Table of Contents
+## About
 
-- [About the Project](#star2-about-the-project)
-  * [Screenshots](#camera-screenshots)
-  * [Tech Stack](#space_invader-tech-stack)
-  * [Features](#dart-features)
-  * [Color Reference](#art-color-reference)
-  * [Environment Variables](#key-environment-variables)
-- [Getting Started](#toolbox-getting-started)
-  * [Prerequisites](#bangbang-prerequisites)
-  * [Installation](#gear-installation)
-  * [Running Tests](#test_tube-running-tests)
-  * [Run Locally](#running-run-locally)
-  * [Deployment](#triangular_flag_on_post-deployment)
-- [Usage](#eyes-usage)
-- [Roadmap](#compass-roadmap)
-- [Contributing](#wave-contributing)
-  * [Code of Conduct](#scroll-code-of-conduct)
-- [FAQ](#grey_question-faq)
-- [License](#warning-license)
-- [Contact](#handshake-contact)
-- [Acknowledgements](#gem-acknowledgements)
+This repository contains the implementation developed for the master thesis **"Self-Supervised Traversability Estimation using Vision-Language Model Features"**.
 
-  
+The approach investigates whether visual representations learned by a pretrained Vision-Language Model (VLM) can be used for traversability estimation (TE) without task-specific fine-tuning of the visual backbone.
 
-<!-- About the Project -->
-## :star2: About the Project
-Traversability Estimation (TE) using the VLM CLIP with Maskclip_onnx
+Robot telemetry is used to generate self-supervised traversability labels. RGB images are represented using patch-level features extracted from **MaskCLIP with a CLIP ViT-B/16 backbone**. A logistic regression classifier maps the resulting visual embeddings to traversability probabilities.
 
+Three strategies for selecting spatially relevant image patches are evaluated:
 
-<!-- Screenshots -->
-### :camera: Screenshots
+- **Traversability mask (`trav`)** – fixed image region representing the area in front of the robot
+- **OTAS mask (`otas`)** – semantic ground/path selection using OTAS
+- **Depth mask (`depth`)** – geometric selection of patches within 5 m of the robot
 
-<div align="center"> 
-  <img src="https://placehold.co/600x400?text=Your+Screenshot+here" alt="screenshot" />
-</div>
+The models are trained on data recorded with the **Mattro Rovo3** and evaluated both in-domain and across different robots and datasets.
 
+---
 
-<!-- TechStack -->
-### :space_invader: Tech Stack
+## Method Overview
 
-<details>
-  <summary>Client</summary>
-  <ul>
-    <li><a href="https://www.typescriptlang.org/">Typescript</a></li>
-    <li><a href="https://nextjs.org/">Next.js</a></li>
-    <li><a href="https://reactjs.org/">React.js</a></li>
-    <li><a href="https://tailwindcss.com/">TailwindCSS</a></li>
-  </ul>
-</details>
+The general pipeline is:
 
-<details>
-  <summary>Server</summary>
-  <ul>
-    <li><a href="https://www.typescriptlang.org/">Typescript</a></li>
-    <li><a href="https://expressjs.com/">Express.js</a></li>
-    <li><a href="https://go.dev/">Golang</a></li>
-    <li><a href="https://nestjs.com/">Nest.js</a></li>
-    <li><a href="https://socket.io/">SocketIO</a></li>
-    <li><a href="https://www.prisma.io/">Prisma</a></li>    
-    <li><a href="https://www.apollographql.com/">Apollo</a></li>
-    <li><a href="https://graphql.org/">GraphQL</a></li>
-  </ul>
-</details>
-
-<details>
-<summary>Database</summary>
-  <ul>
-    <li><a href="https://www.mysql.com/">MySQL</a></li>
-    <li><a href="https://www.postgresql.org/">PostgreSQL</a></li>
-    <li><a href="https://redis.io/">Redis</a></li>
-    <li><a href="https://neo4j.com/">Neo4j</a></li>
-    <li><a href="https://www.mongodb.com/">MongoDB</a></li>
-  </ul>
-</details>
-
-<details>
-<summary>DevOps</summary>
-  <ul>
-    <li><a href="https://www.docker.com/">Docker</a></li>
-    <li><a href="https://www.jenkins.io/">Jenkins</a></li>
-    <li><a href="https://circleci.com/">CircleCLI</a></li>
-  </ul>
-</details>
-
-<!-- Features -->
-### :dart: Features
-
-- Feature 1
-- Feature 2
-- Feature 3
-
-<!-- Color Reference -->
-### :art: Color Reference
-
-| Color             | Hex                                                                |
-| ----------------- | ------------------------------------------------------------------ |
-| Primary Color | ![#222831](https://via.placeholder.com/10/222831?text=+) #222831 |
-| Secondary Color | ![#393E46](https://via.placeholder.com/10/393E46?text=+) #393E46 |
-| Accent Color | ![#00ADB5](https://via.placeholder.com/10/00ADB5?text=+) #00ADB5 |
-| Text Color | ![#EEEEEE](https://via.placeholder.com/10/EEEEEE?text=+) #EEEEEE |
-
-
-<!-- Env Variables -->
-### :key: Environment Variables
-
-To run this project, you will need to add the following environment variables to your .env file
-
-`API_KEY`
-
-`ANOTHER_API_KEY`
-
-<!-- Getting Started -->
-## 	:toolbox: Getting Started
-
-<!-- Prerequisites -->
-### :bangbang: Prerequisites
-
-This project uses Yarn as package manager
-
-```bash
- npm install --global yarn
+```text
+Robot telemetry
+      |
+      v
+Self-supervised traversability score
+      |
+      v
+Binary traversability label
+      |
+      +--------------------------------+
+                                       |
+RGB image                              |
+   |                                   |
+   v                                   |
+MaskCLIP ViT-B/16                      |
+   |                                   |
+   v                                   |
+14 x 14 patch embeddings               |
+(196 patches, 512 dimensions)          |
+   |                                   |
+   v                                   |
+Spatial patch selection                |
+   |                                   |
+   +--------+---------+                |
+   |        |         |                |
+  trav     OTAS      depth             |
+   |        |         |                |
+   +--------+---------+                |
+            |                          |
+            v                          |
+     Logistic Regression <-------------+
+            |
+            v
+Traversability probability
+            |
+            v
+Traversability heatmap
 ```
 
-<!-- Installation -->
-### :gear: Installation
+The MaskCLIP visual encoder remains **frozen**. Only the logistic regression classifier is trained.
 
-Install my-project with npm
+---
 
-```bash
-  yarn install my-project
-  cd my-project
-```
-   
-<!-- Running Tests -->
-### :test_tube: Running Tests
+## Datasets
 
-To run tests, run the following command
+The implementation supports three datasets / platforms:
 
-```bash
-  yarn test test
-```
+| Dataset | Role | Usage |
+|---|---|---|
+| **Mattro Rovo3** | Training + in-domain testing | Model training and reference evaluation |
+| **Boston Dynamics Spot** | Cross-platform testing | Evaluation without retraining |
+| **RELLIS-3D** | Cross-dataset testing | Evaluation without retraining |
 
-<!-- Run Locally -->
-### :running: Run Locally
+The trained Mattro models are directly applied to SPOT and RELLIS-3D to evaluate transfer without robot- or environment-specific retraining.
 
-Clone the project
+Dataset files are not included in this repository.
 
-```bash
-  git clone https://github.com/Louis3797/awesome-readme-template.git
-```
+---
 
-Go to the project directory
+## Traversability Ground Truth
 
-```bash
-  cd my-project
-```
+Traversability supervision is generated automatically from robot telemetry.
 
-Install dependencies
+The score combines robot velocity and motion smoothness. A future temporal offset is used to associate terrain visible in an image with the physical interaction experienced by the robot shortly afterwards.
 
-```bash
-  yarn install
-```
+The default parameters are:
 
-Start the server
+| Parameter | Value |
+|---|---:|
+| Future window | 2.0 s |
+| Traversability threshold | 0.5 |
+| Depth threshold | 5.0 m |
+| Input resolution | 224 x 224 |
+| MaskCLIP backbone | ViT-B/16 |
+| Patch grid | 14 x 14 |
+| Feature dimension | 512 |
 
-```bash
-  yarn start
-```
+A continuous telemetry-derived traversability score is converted into a binary training label using the threshold of `0.5`.
 
+---
 
-<!-- Deployment -->
-### :triangular_flag_on_post: Deployment
+## Spatial Patch Selection
 
-To deploy this project run
+### Traversability Mask
 
-```bash
-  yarn deploy
+The `trav` configuration uses a fixed spatial region in the image to approximate the terrain directly in front of the robot.
+
+```text
+Mask = padding mask + fixed traversability ROI
 ```
 
+### OTAS Mask
 
-<!-- Usage -->
-## :eyes: Usage
+The `otas` configuration uses semantic segmentation from OTAS to retain ground/path regions.
 
-Use this space to tell a little more about your project and how it can be used. Show additional screenshots, code samples, demos or link to other resources.
+```text
+Mask = padding mask + OTAS ground/path mask
+```
 
+No additional fixed traversability ROI is applied.
 
-```javascript
-import Component from 'my-project'
+### Depth Mask
 
-function App() {
-  return <Component />
+The `depth` configuration uses stereo depth to retain patches within 5 m of the robot.
+
+```text
+Mask = padding mask + depth <= 5 m
+```
+
+No additional fixed traversability ROI is applied.
+
+---
+
+## Project Structure
+
+```text
+.
+├── project_config.py
+├── train.py
+├── test.py
+│
+├── preprocessing/
+│   ├── extraction_rosbag_robonav.py
+│   ├── extraction_spot_rosbag_robonav.py
+│   ├── extraction_rosbag_rellis.py
+│   ├── rectify_images.py
+│   ├── prepare_images_robonav.py
+│   ├── prepare_images_robonav_SPOT.py
+│   ├── prepare_images_rellis.py
+│   ├── robonav_save_depth.py
+│   ├── rellis_save_depth.py
+│   ├── robonav_extractOTASMask_NEW.py
+│   ├── rellis_extractOTASMask.py
+│   ├── image_utils.py
+│   ├── depth_utils.py
+│   ├── otas_utils.py
+│   └── rosbag_utils.py
+│
+└── utils/
+    ├── features.py
+    ├── masks.py
+    ├── depth.py
+    ├── traversability.py
+    ├── models.py
+    ├── evaluation.py
+    └── visualization.py
+```
+
+`project_config.py` contains shared paths and experimental parameters. Dataset-specific processing is kept separate where required, while common functionality is implemented in reusable utility modules.
+
+---
+
+## Requirements
+
+The project is implemented in Python and primarily uses:
+
+- Python
+- PyTorch
+- MaskCLIP / CLIP
+- scikit-learn
+- NumPy
+- pandas
+- OpenCV
+- Pillow
+- Matplotlib
+- rosbags
+
+OTAS is required for the semantic masking experiments.
+
+### External Repositories
+
+MaskCLIP ONNX:
+
+https://github.com/RogerQi/maskclip_onnx
+
+CLIP:
+
+https://github.com/openai/CLIP
+
+OTAS:
+
+https://github.com/SimonSchwaiger/otas
+
+The exact environment depends on the MaskCLIP, CUDA and OTAS installations. Separate environments may be useful for MaskCLIP and OTAS due to their dependency requirements.
+
+---
+
+# Running the Pipeline
+
+All commands below assume they are executed from the project root.
+
+## 1. Mattro Preprocessing
+
+Extract the RoboNav data:
+
+```bash
+python preprocessing/extraction_rosbag_robonav.py
+```
+
+Rectify the stereo images:
+
+```bash
+python preprocessing/rectify_images.py --dataset mattro
+```
+
+Create the randomized train/test image split and prepare the 224 x 224 inputs:
+
+```bash
+python preprocessing/prepare_images_robonav.py
+```
+
+Generate stereo depth:
+
+```bash
+python preprocessing/robonav_save_depth.py \
+    --dataset mattro \
+    --no-visualizations
+```
+
+Generate OTAS masks for the training and test subsets:
+
+```bash
+python preprocessing/robonav_extractOTASMask_NEW.py \
+    --dataset mattro \
+    --split train
+
+python preprocessing/robonav_extractOTASMask_NEW.py \
+    --dataset mattro \
+    --split test
+```
+
+---
+
+## 2. Training
+
+All models are trained using Mattro data.
+
+### Fixed Traversability Mask
+
+```bash
+python train.py --mask trav
+```
+
+### OTAS Mask
+
+```bash
+python train.py --mask otas
+```
+
+### Depth Mask
+
+```bash
+python train.py --mask depth
+```
+
+The MaskCLIP backbone remains frozen. A `StandardScaler` and logistic regression classifier are fitted to the selected patch embeddings.
+
+---
+
+## 3. Mattro Evaluation
+
+Evaluate the three models on Mattro:
+
+```bash
+python test.py --dataset mattro --mask trav
+python test.py --dataset mattro --mask otas
+python test.py --dataset mattro --mask depth
+```
+
+To calculate the metrics without generating individual heatmaps:
+
+```bash
+python test.py --dataset mattro --mask trav --no-heatmaps
+python test.py --dataset mattro --mask otas --no-heatmaps
+python test.py --dataset mattro --mask depth --no-heatmaps
+```
+
+---
+
+## 4. SPOT Preprocessing
+
+Extract the SPOT data:
+
+```bash
+python preprocessing/extraction_spot_rosbag_robonav.py
+```
+
+Rectify and prepare the images:
+
+```bash
+python preprocessing/rectify_images.py --dataset spot
+
+python preprocessing/prepare_images_robonav_SPOT.py
+```
+
+Generate depth:
+
+```bash
+python preprocessing/robonav_save_depth.py \
+    --dataset spot \
+    --no-visualizations
+```
+
+Generate OTAS masks:
+
+```bash
+python preprocessing/robonav_extractOTASMask_NEW.py \
+    --dataset spot \
+    --split test
+```
+
+---
+
+## 5. SPOT Cross-Platform Evaluation
+
+No additional training is performed on SPOT.
+
+```bash
+python test.py --dataset spot --mask trav
+python test.py --dataset spot --mask otas
+python test.py --dataset spot --mask depth
+```
+
+For metrics only:
+
+```bash
+python test.py --dataset spot --mask trav --no-heatmaps
+python test.py --dataset spot --mask otas --no-heatmaps
+python test.py --dataset spot --mask depth --no-heatmaps
+```
+
+---
+
+## 6. RELLIS-3D Preprocessing
+
+Extract and prepare the RELLIS-3D data:
+
+```bash
+python preprocessing/extraction_rosbag_rellis.py
+
+python preprocessing/prepare_images_rellis.py
+```
+
+Generate stereo depth:
+
+```bash
+python preprocessing/rellis_save_depth.py
+```
+
+Generate OTAS masks:
+
+```bash
+python preprocessing/rellis_extractOTASMask.py
+```
+
+---
+
+## 7. RELLIS-3D Cross-Dataset Evaluation
+
+No additional training is performed on RELLIS-3D.
+
+```bash
+python test.py --dataset rellis --mask trav
+python test.py --dataset rellis --mask otas
+python test.py --dataset rellis --mask depth
+```
+
+For metrics only:
+
+```bash
+python test.py --dataset rellis --mask trav --no-heatmaps
+python test.py --dataset rellis --mask otas --no-heatmaps
+python test.py --dataset rellis --mask depth --no-heatmaps
+```
+
+---
+
+## Evaluation
+
+The implementation reports binary traversability performance using:
+
+- F1 score
+- Matthews Correlation Coefficient (MCC)
+- Confusion matrix
+
+During training, additional metrics including accuracy, precision, recall and ROC-AUC are reported.
+
+The classifier outputs a continuous traversability probability in the range `[0, 1]`. A threshold of `0.5` is used for binary evaluation.
+
+---
+
+## Output
+
+Depending on the selected configuration, generated outputs include:
+
+```text
+trained logistic regression models
+StandardScaler parameters
+patch-level traversability probabilities
+traversability heatmaps
+confusion matrices
+evaluation metrics
+```
+
+Heatmap generation can be disabled during evaluation using:
+
+```bash
+--no-heatmaps
+```
+
+This is useful when only numerical evaluation is required.
+
+---
+
+## Reproducibility
+
+Important experimental parameters are defined centrally in `project_config.py`.
+
+The default configuration uses:
+
+```text
+MaskCLIP backbone:       ViT-B/16
+Image resolution:        224 x 224
+Patch grid:              14 x 14
+Patch feature dimension: 512
+Future window:           2.0 s
+Traversability threshold: 0.5
+Depth threshold:         5.0 m
+Random state:            29
+```
+
+The same Mattro-trained classifiers and feature scalers are used for SPOT and RELLIS-3D evaluation.
+
+---
+
+## Results
+
+The experiments investigate three main settings:
+
+1. **In-domain evaluation:** Mattro -> Mattro
+2. **Cross-platform evaluation:** Mattro -> SPOT
+3. **Cross-dataset evaluation:** Mattro -> RELLIS-3D
+
+Detailed quantitative and qualitative results are presented in the corresponding master thesis.
+
+---
+
+## Limitations
+
+The telemetry-derived supervision describes the physical interaction of the robot with terrain along its driven trajectory. Assigning this signal to selected visual patches therefore represents weak spatial supervision rather than dense pixel-wise ground truth.
+
+Furthermore, the visual backbone is kept frozen. The experiments consequently evaluate the information available in the pretrained representation rather than the performance achievable through task-specific VLM fine-tuning.
+
+Dataset-specific sensor availability also requires differences in telemetry preprocessing, particularly for RELLIS-3D.
+
+---
+
+## Acknowledgements
+
+This project builds upon the following open-source projects and research:
+
+- [CLIP](https://github.com/openai/CLIP) – pretrained vision-language representation
+- [MaskCLIP ONNX](https://github.com/RogerQi/maskclip_onnx) – dense CLIP feature extraction
+- [OTAS](https://github.com/SimonSchwaiger/otas) – semantic terrain masking
+- [RoboNav](https://github.com/ethz-asl/robonav) – robotic navigation dataset
+- [RELLIS-3D](https://github.com/unmannedlab/RELLIS-3D) – multimodal off-road dataset
+
+Please refer to the original repositories and publications for their respective licenses and citation requirements.
+
+---
+
+## Citation
+
+If you use this repository in academic work, please cite the corresponding master thesis:
+
+```bibtex
+@mastersthesis{bolt2026traversability,
+  author = {Leonie Bolt},
+  title  = {Self-Supervised Traversability Estimation using Vision-Language Model Features},
+  school = {FH Technikum Wien},
+  year   = {2026},
+  type   = {Master's thesis}
 }
-```
 
-<!-- Roadmap -->
-## :compass: Roadmap
+## License
 
-* [x] Todo 1
-* [ ] Todo 2
+This repository contains code developed as part of a master thesis and integrates or depends on external open-source projects.
 
-
-<!-- Contributing -->
-## :wave: Contributing
-
-<a href="https://github.com/Louis3797/awesome-readme-template/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Louis3797/awesome-readme-template" />
-</a>
-
-
-Contributions are always welcome!
-
-See `contributing.md` for ways to get started.
-
-
-<!-- Code of Conduct -->
-### :scroll: Code of Conduct
-
-Please read the [Code of Conduct](https://github.com/Louis3797/awesome-readme-template/blob/master/CODE_OF_CONDUCT.md)
-
-<!-- FAQ -->
-## :grey_question: FAQ
-
-- Question 1
-
-  + Answer 1
-
-- Question 2
-
-  + Answer 2
-
-
-<!-- License -->
-## :warning: License
-
-Distributed under the no License. See LICENSE.txt for more information.
-
-
-<!-- Contact -->
-## :handshake: Contact
-
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
-
-Project Link: [https://github.com/Louis3797/awesome-readme-template](https://github.com/Louis3797/awesome-readme-template)
-
-
-<!-- Acknowledgments -->
-## :gem: Acknowledgements
-
-Thanks to these repositories and works! Without them, this thesis wouldn't have been possible:
-
- - [Shields.io](https://shields.io/)
- - [Awesome README](https://github.com/matiassingers/awesome-readme)
- - [Emoji Cheat Sheet](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md#travel--places)
- - [Readme Template](https://github.com/othneildrew/Best-README-Template)
- - MaskCLIP_onnx: https://github.com/RogerQi/maskclip_onnx.git
- - CLIP: https://github.com/openai/CLIP.git
- - OTAS: https://github.com/SimonSchwaiger/otas.git
-
+Please check the licenses of CLIP, MaskCLIP, OTAS, RoboNav and RELLIS-3D before redistribution or reuse.
