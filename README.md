@@ -2,6 +2,7 @@
 
 # Self-Supervised Traversability Estimation using Vision-Language Model Features
 
+
 ### Master Thesis – Robotics Engineering
 
 A framework for self-supervised visual traversability estimation using pretrained MaskCLIP features and robot telemetry.
@@ -31,7 +32,9 @@ The models are trained on data recorded with the **Mattro Rovo3** and evaluated 
 ## Method Overview
 
 The general pipeline is:
-
+<div align="center">
+<img src="assets/logo.png" alt="logo" width="200" height="auto" />
+      
 ```text
 Robot telemetry
       |
