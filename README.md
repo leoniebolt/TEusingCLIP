@@ -32,47 +32,15 @@ The models are trained on data recorded with the **Mattro Rovo3** and evaluated 
 ## Method Overview
 
 The general pipeline is:
+Offline Training:
 <div align="center">
-<img src="assets/logo.png" alt="logo" width="200" height="auto" />
-      
-```text
-Robot telemetry
-      |
-      v
-Self-supervised traversability score
-      |
-      v
-Binary traversability label
-      |
-      +--------------------------------+
-                                       |
-RGB image                              |
-   |                                   |
-   v                                   |
-MaskCLIP ViT-B/16                      |
-   |                                   |
-   v                                   |
-14 x 14 patch embeddings               |
-(196 patches, 512 dimensions)          |
-   |                                   |
-   v                                   |
-Spatial patch selection                |
-   |                                   |
-   +--------+---------+                |
-   |        |         |                |
-  trav     OTAS      depth             |
-   |        |         |                |
-   +--------+---------+                |
-            |                          |
-            v                          |
-     Logistic Regression <-------------+
-            |
-            v
-Traversability probability
-            |
-            v
-Traversability heatmap
-```
+<img src="OfflineTraining.png" alt="logo" width="450" height="auto" />
+</div>
+
+Online Testing:
+<div align="center">
+<img src="OnlineTesting.png" alt="logo" width="350" height="auto" />
+</div>
 
 The MaskCLIP visual encoder remains **frozen**. Only the logistic regression classifier is trained.
 
