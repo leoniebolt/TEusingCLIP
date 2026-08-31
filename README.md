@@ -56,9 +56,28 @@ The implementation supports three datasets / platforms:
 | **Boston Dynamics Spot** | Cross-platform testing | Evaluation without retraining |
 | **RELLIS-3D** | Cross-dataset testing | Evaluation without retraining |
 
-The trained Mattro models are directly applied to SPOT and RELLIS-3D to evaluate transfer without robot- or environment-specific retraining.
+The trained Mattro models are directly applied to SPOT from RoboNav and WARTHOG from RELLIS-3D to evaluate transfer without robot- or environment-specific retraining.
 
-Dataset files are not included in this repository.
+Dataset files are not included in this repository and need to be downloaded in their respective folders. In this repository there are the links for downloading in the folders in the READMEs.
+
+For ROVO3:
+```
+01_mattro_imu_220623_072923.csv in datasets/robonav/mattro_route1/csv_files
+mattro_kantine.csv in datasets/robonav/mattro_route1/csv_files
+mattro_01_2022-06-23-07-29-23.bag in datasets/robonav/mattro_route1
+```
+
+For SPOT:
+```
+spot_kantine.csv in datasets/robonav/spot_route1a/csv_files
+spot_01_2022-06-22-10-12-24.bag in datasets/robonav/spot_route1a
+```
+
+For RELLIS-3D:
+```
+00000_00.bag in datasets/rellis_3d/00000_00
+```
+
 
 ---
 
@@ -91,7 +110,7 @@ A continuous telemetry-derived traversability score is converted into a binary t
 The `trav` configuration uses a fixed spatial region in the image to approximate the terrain directly in front of the robot.
 
 ```text
-Mask = padding mask + fixed traversability ROI
+Mask = fixed rectangular 
 ```
 
 ### OTAS Mask
@@ -99,7 +118,7 @@ Mask = padding mask + fixed traversability ROI
 The `otas` configuration uses semantic segmentation from OTAS to retain ground/path regions.
 
 ```text
-Mask = padding mask + OTAS ground/path mask
+Mask = padding mask + OTAS mask
 ```
 
 No additional fixed traversability ROI is applied.
@@ -169,8 +188,7 @@ The project is implemented in Python and primarily uses:
 - Pillow
 - Matplotlib
 - rosbags
-
-OTAS is required for the semantic masking experiments.
+- OTAS
 
 ### External Repositories
 
@@ -178,21 +196,35 @@ MaskCLIP ONNX:
 
 https://github.com/RogerQi/maskclip_onnx
 
-CLIP:
-
-https://github.com/openai/CLIP
-
 OTAS:
 
 https://github.com/SimonSchwaiger/otas
 
-The exact environment depends on the MaskCLIP, CUDA and OTAS installations. Separate environments may be useful for MaskCLIP and OTAS due to their dependency requirements.
+The exact environment depends on the MaskCLIP, CUDA and OTAS installations. Separate environments for MaskCLIP and OTAS due to their dependency requirements.
 
 ---
+# Installation
+Download this repository:
+```
+git clone 
+```
+
+Create a conda environment for MaskCLIP:
+```
+
+```
+
+Create a conda environment for OTAS:
+```
+
+```
+
 
 # Running the Pipeline
 
-All commands below assume they are executed from the project root.
+All commands are executed from the project root.
+
+In the MaskCLIP conda environment:
 
 ## 1. Mattro Preprocessing
 
@@ -222,6 +254,8 @@ python preprocessing/robonav_save_depth.py \
     --no-visualizations
 ```
 
+In the OTAS conda environment:
+
 Generate OTAS masks for the training and test subsets:
 
 ```bash
@@ -239,6 +273,8 @@ python preprocessing/robonav_extractOTAS.py \
 ## 2. Training
 
 All models are trained using Mattro data.
+
+In the MaskCLIP conda environment:
 
 ### Fixed Traversability Mask
 
@@ -284,7 +320,7 @@ python test.py --dataset mattro --mask depth --no-heatmaps
 
 ## 4. SPOT Preprocessing
 
-Extract the SPOT data:
+Extract the SPOT data in the MaskCLIP environment:
 
 ```bash
 python preprocessing/extraction_spot_rosbag_robonav.py
@@ -306,7 +342,7 @@ python preprocessing/robonav_save_depth.py \
     --no-visualizations
 ```
 
-Generate OTAS masks:
+Generate OTAS masks in the OTAS environment:
 
 ```bash
 python preprocessing/robonav_extractOTAS.py \
@@ -320,25 +356,19 @@ python preprocessing/robonav_extractOTAS.py \
 
 No additional training is performed on SPOT.
 
+In the MaskCLIP environment:
+
 ```bash
 python test.py --dataset spot --mask trav
 python test.py --dataset spot --mask otas
 python test.py --dataset spot --mask depth
 ```
 
-For metrics only:
-
-```bash
-python test.py --dataset spot --mask trav --no-heatmaps
-python test.py --dataset spot --mask otas --no-heatmaps
-python test.py --dataset spot --mask depth --no-heatmaps
-```
-
 ---
 
 ## 6. RELLIS-3D Preprocessing
 
-Extract and prepare the RELLIS-3D data:
+Extract and prepare the RELLIS-3D data in the MaskCLIP environment:
 
 ```bash
 python preprocessing/extraction_rosbag_rellis.py
@@ -352,7 +382,7 @@ Generate stereo depth:
 python preprocessing/rellis_save_depth.py
 ```
 
-Generate OTAS masks:
+Generate OTAS masks in the OTAS environment:
 
 ```bash
 python preprocessing/rellis_extractOTASMask.py
@@ -364,18 +394,12 @@ python preprocessing/rellis_extractOTASMask.py
 
 No additional training is performed on RELLIS-3D.
 
+In the MaskCLIP environment:
+
 ```bash
 python test.py --dataset rellis --mask trav
 python test.py --dataset rellis --mask otas
 python test.py --dataset rellis --mask depth
-```
-
-For metrics only:
-
-```bash
-python test.py --dataset rellis --mask trav --no-heatmaps
-python test.py --dataset rellis --mask otas --no-heatmaps
-python test.py --dataset rellis --mask depth --no-heatmaps
 ```
 
 ---
@@ -395,8 +419,6 @@ The classifier outputs a continuous traversability probability in the range `[0,
 ---
 
 ## Output
-
-Depending on the selected configuration, generated outputs include:
 
 ```text
 trained logistic regression models
@@ -431,10 +453,7 @@ Patch feature dimension: 512
 Future window:           2.0 s
 Traversability threshold: 0.5
 Depth threshold:         5.0 m
-Random state:            29
 ```
-
-The same Mattro-trained classifiers and feature scalers are used for SPOT and RELLIS-3D evaluation.
 
 ---
 
@@ -444,7 +463,7 @@ The experiments investigate three main settings:
 
 1. **In-domain evaluation:** Mattro -> Mattro
 2. **Cross-platform evaluation:** Mattro -> SPOT
-3. **Cross-dataset evaluation:** Mattro -> RELLIS-3D
+3. **Cross-dataset and cross-platform evaluation:** Mattro -> WARTHOG on RELLIS-3D
 
 Detailed quantitative and qualitative results are presented in the corresponding master thesis.
 
@@ -452,7 +471,7 @@ Detailed quantitative and qualitative results are presented in the corresponding
 
 ## Limitations
 
-The telemetry-derived supervision describes the physical interaction of the robot with terrain along its driven trajectory. Assigning this signal to selected visual patches therefore represents weak spatial supervision rather than dense pixel-wise ground truth.
+The telemetry-derived supervision describes the physical interaction of the robot with terrain along its driven trajectory. Assigning this signal to selected visual patches therefore represents supervision rather than dense pixel-wise ground truth.
 
 Furthermore, the visual backbone is kept frozen. The experiments consequently evaluate the information available in the pretrained representation rather than the performance achievable through task-specific VLM fine-tuning.
 
