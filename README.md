@@ -22,10 +22,10 @@ Robot telemetry is used to generate self-supervised traversability labels. RGB i
 Three strategies for selecting spatially relevant image patches are evaluated:
 
 - **Traversability mask (`trav`)** – fixed image region representing the area in front of the robot
-- **OTAS mask (`otas`)** – semantic ground/path selection using OTAS
+- **OTAS mask (`otas`)** – semantic ground/path selection using OTAS (https://github.com/SimonSchwaiger/otas.git)
 - **Depth mask (`depth`)** – geometric selection of patches within 5 m of the robot
 
-The models are trained on data recorded with the **Mattro Rovo3** and evaluated both in-domain and across different robots and datasets.
+The models are trained on data recorded with the **Mattro ROVO3** and evaluated both in-domain and across different robots and datasets.
 
 ---
 
