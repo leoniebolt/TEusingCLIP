@@ -34,12 +34,12 @@ The models are trained on data recorded with the **Mattro ROVO3** and evaluated 
 The general pipeline is:
 Offline Training:
 <div align="center">
-<img src="OfflineTraining.png" alt="logo" width="450" height="auto" />
+<img src="Training.png" alt="logo" width="325" height="auto" />
 </div>
 
 Online Testing:
 <div align="center">
-<img src="OnlineTesting.png" alt="logo" width="350" height="auto" />
+<img src="Testing.png" alt="logo" width="350" height="auto" />
 </div>
 
 The MaskCLIP visual encoder remains **frozen**. Only the logistic regression classifier is trained.
