@@ -252,48 +252,22 @@ conda create -n maskclip python=3.9
 conda activate maskclip
 ```
 
-Install PyTorch according to the CUDA configuration of your system.
-
 Then install the required Python packages:
 
 ```bash
-pip install numpy pandas scikit-learn opencv-python pillow matplotlib rosbags
+cd TEusingCLIP
+pip install -r requirements.txt
 ```
 
-Clone and install MaskCLIP ONNX according to its original installation instructions:
-
-```bash
-git clone https://github.com/RogerQi/maskclip_onnx.git
-```
-
-The exact PyTorch and CUDA versions depend on the system used to execute the experiments. Please refer to the MaskCLIP repository for additional installation requirements.
-
----
+Clone and install MaskCLIP_onnx according to its original installation instructions.
 
 ## 3. OTAS Environment
 
 OTAS is executed in a separate environment due to its dependency requirements.
 
-Clone OTAS:
-
-```bash
-git clone https://github.com/SimonSchwaiger/otas.git
-```
-
-Create and configure the OTAS environment according to the installation instructions provided by the original OTAS repository.
-
-```bash
-conda activate <otas-environment>
-```
-
-OTAS is only required for generating the semantic terrain masks. Once the masks have been generated, training and evaluation can be performed in the MaskCLIP environment.
-
----
+Create a new OTAS conda environment and clone and install OTAS.
 
 # Running the Pipeline
-
-All commands are executed from the project root unless stated otherwise.
-
 ---
 
 ## 1. Mattro Preprocessing
